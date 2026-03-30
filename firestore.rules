@@ -1,0 +1,43 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    match /users/{userId} {
+      allow read, write: if request.auth.uid == userId;
+    }
+
+    match /patients/{patientId} {
+      allow list, read, write: if isSignedIn();
+    }
+    
+    match /visits/{visitId} {
+      allow read, list, create, update, delete: if isSignedIn();
+    }
+    
+    match /prescriptions/{prescriptionId} {
+        allow list, read, write: if isSignedIn();
+    }
+
+    match /medicines/{medicineId} {
+      allow read, list: if isSignedIn();
+    }
+
+    match /clinic_settings/details {
+      allow read, write: if isSignedIn();
+    }
+
+    match /audit_logs/{logId} {
+      allow create, read, list: if isSignedIn();
+      allow update, delete: if false;
+    }
+
+    match /ai_logs/{logId} {
+      allow create: if isSignedIn();
+      allow read, list, update, delete: if false;
+    }
+  }
+}
