@@ -231,7 +231,7 @@ const MedicineAutocomplete = ({
                   const focusableElements = document.querySelectorAll(
                     'input:not([disabled]), textarea:not([disabled])'
                   );
-                  const index = Array.prototype.indexOf.call(focusableElements, document.getElementById(id));
+                  const index = Array.from(focusableElements).indexOf(document.getElementById(id) as Element);
                   if (index > -1 && index + 1 < focusableElements.length) {
                     (focusableElements[index + 1] as HTMLElement).focus();
                   }
@@ -448,7 +448,7 @@ export default function OPDSystem() {
       const focusableElements = document.querySelectorAll(
         'input:not([disabled]), textarea:not([disabled])'
       );
-      const index = Array.prototype.indexOf.call(focusableElements, e.target);
+      const index = Array.from(focusableElements).indexOf(e.target as Element);
       if (index > -1 && index + 1 < focusableElements.length) {
         (focusableElements[index + 1] as HTMLElement).focus();
       }
@@ -667,7 +667,18 @@ ${isUnder20kg ? '5. CRITICAL PEDIATRIC RULE: Patient is under 20kg. You MUST ONL
               }`} />
               <div className="pl-3">
                 <div className="flex justify-between items-start mb-1">
-                  <span className="font-semibold text-sm truncate pr-2">{patient.name}</span>
+                  <div className="flex items-center gap-1.5 truncate pr-2">
+                    <span className="font-semibold text-sm truncate">{patient.name}</span>
+                    {patient.visitCount > 0 && (
+                      <span 
+                        className="inline-flex items-center gap-0.5 bg-gray-100 text-gray-600 text-[10px] font-medium px-1.5 py-0.5 rounded-md shrink-0" 
+                        title={`${patient.visitCount} previous visit${patient.visitCount > 1 ? 's' : ''}`}
+                      >
+                        <History size={10} />
+                        {patient.visitCount}
+                      </span>
+                    )}
+                  </div>
                   <span className="text-xs text-gray-500 whitespace-nowrap">{formatAge(patient.age, patient.ageMonths)}{patient.gender}</span>
                 </div>
                 <p className="text-xs text-gray-500 line-clamp-1">{patient.symptoms || 'No symptoms recorded'}</p>
