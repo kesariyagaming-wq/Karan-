@@ -1,18 +1,17 @@
-import type {Metadata} from 'next';
-import { Inter } from 'next/font/google';
-import './globals.css'; // Global styles
-
-const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
+import type { Metadata } from 'next';
+import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'Navjeevan Clinic OPD',
-  description: 'Ultra-fast single-screen OPD system',
+  title: 'Modern Website Starter',
+  description: 'A clean and responsive website built with Next.js and Tailwind CSS.',
 };
 
-export default function RootLayout({children}: {children: React.ReactNode}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={inter.variable}>
-      <body className="font-sans antialiased" suppressHydrationWarning>{children}</body>
+    <html lang="en">
+      <body className="antialiased" suppressHydrationWarning>
+        {children}
+      </body>
     </html>
   );
 }
